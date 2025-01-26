@@ -11,3 +11,96 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Navigation */
+
+header {
+  background-color: lightblue;
+  padding: 1rem;
+}
+
+.nav__list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav__item {
+  margin: 0 1rem;
+}
+
+.nav__link {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+
+.nav__link:hover {
+  color: #f0e68c; /* Light yellow color for hover */
+}
+
+/* Footer */
+
+footer {
+  background-color: #d3d3d3; /* Light grey background */
+  padding: 1rem;
+  color: white; /* White text */
+}
+
+.footer__menu {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.footer__list {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.footer__item {
+  margin: 0 1rem;
+}
+
+.footer__link {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.footer__link:hover {
+  color: #f0e68c; /* Light yellow color for hover */
+}
+
+.footer-blurb {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.footer-blurb-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.privacy-policy-link,
+.footer-blurb__link {
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.privacy-policy-link:hover,
+.footer-blurb__link:hover {
+  color: #f0e68c; /* Light yellow color for hover */
+}
+
+/* Home Page */

@@ -1,25 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+//Need this to switch pages
+//React Router Dom Updates
+import { BrowserRouter } from "react-router-dom";
+import NavBar from "./components/NavBar";
+import RoutePaths from "./components/RoutePaths";
+import Footer from "./components/Footer";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <NavBar />
+      <RoutePaths />
+      <Footer />
+    </BrowserRouter>
   );
 }
 
