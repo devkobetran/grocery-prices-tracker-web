@@ -1,0 +1,57 @@
+name: OWASP Dependency Check
+
+on: [push, pull_request]
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "lts/*" # Use the latest stable (LTS) version
+
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Run OWASP Dependency-Check for frontend
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: "frontend"
+          path: "./frontend"
+          format: "HTML"
+          out: "reports/frontend"
+          args: "--failOnCVSS 7 --enableRetired"
+
+      - name: Install backend dependencies
+        run: |
+          cd backend
+          ./gradlew build
+
+      - name: Run OWASP Dependency-Check for backend
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: "backend"
+          path: "./backend"
+          format: "HTML"
+          out: "reports/backend"
+          args: "--failOnCVSS 7 --enableRetired"
+
+      - name: Upload Report for frontend
+        uses: actions/upload-artifact@v3
+        with:
+          name: frontend-dependency-check-report
+          path: frontend/reports/frontend/dependency-check-report.html
+          if-no-files-found: error
+
+      - name: Upload Report for backend
+        uses: actions/upload-artifact@v3
+        with:
+          name: backend-dependency-check-report
+          path: backend/reports/backend/dependency-check-report.html
+          if-no-files-found: error
