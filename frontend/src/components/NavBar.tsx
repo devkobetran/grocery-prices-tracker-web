@@ -12,6 +12,9 @@ const NavBar = () => {
                         <Link to="/" className="nav__link">
                             Home
                         </Link>
+                        <Link to="/add-form" className="nav__link">
+                            Add Item
+                        </Link>
                     </li>
                 </ul>
             </nav>
