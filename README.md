@@ -88,9 +88,4 @@ ssh -i "ec2-prices-tracker-app-dev-key.pem" ec2-user@ec2-44-201-79-7.compute-1.a
 ### CI/CD
 
 - GHA Workflow is used as the CI/CD Pipeline
-- AWS 
-  - [Amazon EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html)
-- [Reusable AWS Docker GHA Workflow](https://github.com/aws-samples/docker-ecr-actions-workflow)
-- [React App GHA Workflow & Deploy via AWS EC2](https://medium.com/@kilamaelie/build-and-deploy-a-reactjs-app-to-aws-ec2-with-docker-nginx-and-automate-with-github-actions-d8c57fb47967)
-  - [GitHub Source Code of React Tutorial](https://github.com/kilamaelie/build-and-deploy-reactApp-to-aws-ec2-via-github-actions)
-- **Reference**: [Create and Push Docker image to Amazon ECR with GitHub Actions](https://snehalchaure.medium.com/create-and-push-docker-image-to-amazon-ecr-with-github-actions-4b35d26e1563)
+- AWS EC2 for deployments
