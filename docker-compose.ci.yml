@@ -1,0 +1,27 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      cache_from:
+        - '${FRONTEND_IMAGE}'
+    image: '${FRONTEND_IMAGE}'
+    ports:
+      - '3000:3000'
+    volumes:
+      - frontend:./frontend/build/ # build files will be added at this directory
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+      cache_from:
+        - '${NGINX_IMAGE}'
+    image: '${NGINX_IMAGE}'
+    ports:
+      - '80:80'
+    volumes:
+      - frontend:/usr/share/nginx/html/frontend # Copy React App's build files to the Nginx directory
+
+volumes:
+  frontend:

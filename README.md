@@ -1,12 +1,96 @@
 # Grocery Prices Tracker Web
 
-## Features
+## Internal Docs
 
-- A user can view, add, edit, and delete grocery items, prices, and grocery store names.
-- A user can search for items and get a list from every grocery store.
-- A user can filter the view dashboard based on price, grocery store, etc.
+- [Check out internal docs: Prices Tracker App Notes](https://devkobetran.github.io/prices-tracker-app-notes/)
+- [Developers can contribute to docs](https://github.com/devkobetran/prices-tracker-app-notes)
+
+## Run Locally
+
+- Open terminal and in the root directory, run: `docker-compose up --build`
+  - If issues occur: `docker-compose down`, then build it again.
+- View React app locally here: [http://localhost:3000](http://localhost:3000)
+
+### Connect to AWS EC2 Instance Locally
+
+- Connect via SSH into the instance using your Key Pair like this template:
+
+```bash
+ssh -i ./your-directory-path/your-key-pair.pem ec2-user@<PUBLIC-IP-ADDRESS>
+```
+
+- Ask App Owner for **pem** file, then `cd` to the directory that contains that file.
+
+```bash
+chmod 400 "ec2-prices-tracker-app-dev-key.pem"
+```
+
+- Ask App Owner for special terminal command from AWS to connect to the instance from EC2 which can look like this:
+
+```bash
+ssh -i "ec2-prices-tracker-app-dev-key.pem" ec2-user@ec2-44-201-79-7.compute-1.amazonaws.com
+```
+
+- If issues persist, then update security groups in EC2.
+  - Ensure it has an inbound rule allowing SSH (port 22):
+    - Type: SSH
+    - Protocol: TCP
+    - Port Range: 22
+    - Source: 0.0.0.0/0
+      - This allows all IP Addresses to have access.
+  - Reboot the instance and try again.
+- After accessing the instance, start by updating the server package and installing the latest version of Docker and Docker-compose:
+
+```bash
+[ec2-user]$ sudo yum update -y
+[ec2-user]$ sudo yum install -y docker
+[ec2-user]$ sudo service docker start
+[ec2-user]$ sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+[ec2-user]$ sudo chmod +x /usr/local/bin/docker-compose
+
+[ec2-user]$ docker --version
+
+[ec2-user]$ docker-compose --version
+
+[ec2-user]$ sudo usermod -a -G docker ec2-user
+```
+
+- Generate the SSH Key and save the key without setting any password
+
+```bash
+[ec2-user]$ ssh-keygen -t rsa
+```
+
+- Copy the public key into the authorized_keys file and set the appropriate authorizations:
+
+```bash
+[ec2-user]$ cat ~/.ssh/id_rsa.pub 
+# Copy this public key into ~/.ssh/authorized_keys
+[ec2-user]$ vi ~/.ssh/authorized_keys
+# After adding the public key into authorized_key then exits  from vi text editor 
+# Then add these commands are used to change the permissions of these files 
+[ec2-user]$ chmod 600 ~/.ssh/authorized_keys
+[ec2-user]$ chmod 600 ~/.ssh/id_rsa
+```
+
+- Now, copy the contents of the private key
+```bash
+[ec2-user]$ cat ~/.ssh/id_rsa
+```
 
 ## Tech Stack
 
 - React Typescript for frontend
+  - NGINX is a reverse proxy to serve the built static files of your React application.
+    - This setup is used to improve performance and manage routing in production environments. 
 - Kotlin Spring Boot for backend
+
+### CI/CD
+
+- GHA Workflow is used as the CI/CD Pipeline
+- AWS 
+  - [Amazon EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html)
+- [Reusable AWS Docker GHA Workflow](https://github.com/aws-samples/docker-ecr-actions-workflow)
+- [React App GHA Workflow & Deploy via AWS EC2](https://medium.com/@kilamaelie/build-and-deploy-a-reactjs-app-to-aws-ec2-with-docker-nginx-and-automate-with-github-actions-d8c57fb47967)
+  - [GitHub Source Code of React Tutorial](https://github.com/kilamaelie/build-and-deploy-reactApp-to-aws-ec2-via-github-actions)
+- **Reference**: [Create and Push Docker image to Amazon ECR with GitHub Actions](https://snehalchaure.medium.com/create-and-push-docker-image-to-amazon-ecr-with-github-actions-4b35d26e1563)
