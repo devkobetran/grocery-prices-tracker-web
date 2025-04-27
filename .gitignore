@@ -1,9 +1,17 @@
 # Node modules
-/frontend/node_modules
+frontend/node_modules
+frontend/.pnp
+.pnp.ts
+
+# frontend testing
+frontend/coverage
+
+# frontend production
+frontend/build
 
 # JVM files
-/backend/build
-/backend/out
+backend/build
+backend/out
 
 # OS-specific files
 .DS_Store
@@ -13,10 +21,22 @@
 .vscode
 
 # Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 *.log
 
 # Environment variables
 .env
 
+# Security
+*.pem
+
 # Miscellaneous
+frontend/.DS_Store
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/.dockerignore
 *.tmp
