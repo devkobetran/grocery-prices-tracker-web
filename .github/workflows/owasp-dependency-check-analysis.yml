@@ -43,14 +43,14 @@ jobs:
           args: "--failOnCVSS 7 --enableRetired"
 
       - name: Upload Report for frontend
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: frontend-dependency-check-report
           path: frontend/reports/frontend/dependency-check-report.html
           if-no-files-found: error
 
       - name: Upload Report for backend
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: backend-dependency-check-report
           path: backend/reports/backend/dependency-check-report.html

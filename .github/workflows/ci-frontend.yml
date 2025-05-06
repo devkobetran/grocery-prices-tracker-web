@@ -1,7 +1,13 @@
 name: Build & Deploy Frontend React TS Application
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+    tags:
+      - release/*
+  pull_request:
+    branches:
+      - "**"
 
 env:
   FRONTEND_IMAGE: ghcr.io/$(echo $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]')/frontend
@@ -35,8 +41,36 @@ jobs:
           docker compose -f docker-compose.ci.yml build
       - name: Push images
         run: |
-          docker push ${{ env.FRONTEND_IMAGE }}
-          docker push ${{ env.NGINX_IMAGE }}
+          if [[ ${{ github.event_name }} == "pull_request" ]]; then
+            docker tag ${{ env.FRONTEND_IMAGE }}:latest ${{ env.FRONTEND_IMAGE }}:${{ github.sha }}
+            docker push ${{ env.FRONTEND_IMAGE }}:${{ github.sha }};
+          elif [[ ${{ github.event_name }} == "push" ]]; then
+            docker push ${{ env.FRONTEND_IMAGE }};
+            docker push ${{ env.NGINX_IMAGE }};
+          fi
+
+      - name: Read the current version
+        if: github.ref == 'refs/heads/main'
+        id: get_version
+        run: |
+          export CURRENT_VERSION=$(cat release.version)
+          echo "current_version=$CURRENT_VERSION" >> $GITHUB_ENV
+      - name: Increment the version
+        if: github.ref == 'refs/heads/main'
+        id: bump_version
+        run: |
+          IFS='.' read -r major minor patch <<< "${{ env.current_version }}"
+          patch=$((patch+1))
+          echo "${major}.${minor}.${patch}" > release.version
+          echo "new_version=${major}.${minor}.${patch}" >> $GITHUB_ENV
+      - name: Commit and push the new version
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add release.version
+          git commit -m "chore: bump version to ${{ env.new_version }}"
+          git push
   checking-secrets:
     name: Checking secrets
     runs-on: ubuntu-latest
