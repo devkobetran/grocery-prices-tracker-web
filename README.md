@@ -22,13 +22,13 @@ ssh -i ./your-directory-path/your-key-pair.pem ec2-user@<PUBLIC-IP-ADDRESS>
 - Ask App Owner for **pem** file, then `cd` to the directory that contains that file.
 
 ```bash
-chmod 400 "ec2-prices-tracker-app-dev-key.pem"
+chmod 400 "prices-tracker-app-dev-ec2-key.pem"
 ```
 
 - Ask App Owner for special terminal command from AWS to connect to the instance from EC2 which can look like this:
 
 ```bash
-ssh -i "ec2-prices-tracker-app-dev-key.pem" ec2-user@ec2-44-201-79-7.compute-1.amazonaws.com
+ssh -i "prices-tracker-app-dev-ec2-key.pem" ec2-user@ec2-18-212-50-122.compute-1.amazonaws.com
 ```
 
 - If issues persist, then update security groups in EC2.
@@ -89,3 +89,4 @@ ssh -i "ec2-prices-tracker-app-dev-key.pem" ec2-user@ec2-44-201-79-7.compute-1.a
 
 - GHA Workflow is used as the CI/CD Pipeline
 - AWS EC2 for deployments
+- Need to configure release.version to release tag of github repo in workflow!!!
